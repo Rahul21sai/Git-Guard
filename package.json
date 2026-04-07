@@ -1,0 +1,22 @@
+{
+  "name": "gitguard",
+  "version": "1.0.0",
+  "description": "Prevent API keys and secrets from being pushed to Git repositories",
+  "license": "MIT",
+  "main": "cli/index.js",
+  "bin": {
+    "gitguard": "./cli/index.js"
+  },
+  "scripts": {
+    "test": "node --test tests/"
+  },
+  "keywords": ["security", "secrets", "api-key", "git", "pre-push", "hook"],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6",
+    "js-yaml": "^4.1.0"
+  }
+}

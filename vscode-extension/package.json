@@ -1,0 +1,64 @@
+{
+  "name": "gitguard-vscode",
+  "displayName": "GitGuard",
+  "description": "Prevent API keys and secrets from being pushed to Git repositories",
+  "version": "1.0.0",
+  "publisher": "gitguard",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": ["Linters", "Other"],
+  "keywords": ["security", "secrets", "api-key", "git", "gitguard"],
+  "icon": "icon.png",
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "GitGuard",
+      "properties": {
+        "gitguard.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable GitGuard scanning"
+        },
+        "gitguard.entropyThreshold": {
+          "type": "number",
+          "default": 4.5,
+          "description": "Shannon entropy threshold for high-entropy secret detection (default: 4.5)"
+        },
+        "gitguard.scanOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Scan the file when it is saved"
+        },
+        "gitguard.autoFixSuggest": {
+          "type": "boolean",
+          "default": true,
+          "description": "Suggest quick-fix actions when secrets are detected"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "gitguard.moveToEnv",
+        "title": "GitGuard: Move secret to .env"
+      },
+      {
+        "command": "gitguard.addToIgnore",
+        "title": "GitGuard: Add pattern to .gitguardignore"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -watch -p tsconfig.json",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}
