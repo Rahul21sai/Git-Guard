@@ -1,0 +1,17 @@
+# .gitguardignore — Git-Guard allowlist
+#
+# Add one pattern per line (Python regular expressions).
+# Any finding whose matched text OR file path matches a pattern here
+# will be silently suppressed.
+#
+# Lines starting with '#' are treated as comments and are ignored.
+#
+# Examples:
+#   Suppress a specific placeholder value:
+#     AKIAIOSFODNN7EXAMPLE
+#
+#   Suppress all findings in test fixtures:
+#     tests/fixtures/
+#
+#   Suppress a specific JWT used in documentation:
+#     eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9

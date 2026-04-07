@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# git-guard-managed
+#
+# Git-Guard pre-push hook
+# Scans the repository for secrets before they are pushed to the remote.
+#
+# Installation:
+#   Copy this file to .git/hooks/pre-push inside your repository, or run:
+#     gitguard install-hook
+#
+# Manual removal:
+#   gitguard uninstall-hook
+#   — or —
+#   rm .git/hooks/pre-push
+
+set -euo pipefail
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
+# Prefer the locally installed gitguard command; fall back to python -m
+if command -v gitguard &>/dev/null; then
+    SCANNER="gitguard scan"
+else
+    SCANNER="python3 -m gitguard.cli scan"
+fi
+
+echo "[Git-Guard] Scanning repository for secrets ..."
+if $SCANNER "$REPO_ROOT"; then
+    echo "[Git-Guard] ✔ No secrets detected. Proceeding with push."
+    exit 0
+else
+    echo ""
+    echo "[Git-Guard] ✖ Push BLOCKED — secrets detected in the repository."
+    echo "[Git-Guard] Review the findings above, revoke any exposed keys,"
+    echo "[Git-Guard] and remove the secrets before pushing."
+    echo ""
+    exit 1
+fi
