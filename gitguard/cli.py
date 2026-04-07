@@ -77,7 +77,7 @@ def cmd_scan(args: list[str]) -> int:
         print(f"Error: path '{root}' does not exist.", file=sys.stderr)
         return 2
 
-    print(f"Scanning '{root}' for secrets …")
+    print(f"Scanning '{root}' for secrets ...")
     allowlist = load_allowlist(root)
     if root.is_file():
         findings = scan_files([root], allowlist)

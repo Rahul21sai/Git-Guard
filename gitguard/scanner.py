@@ -21,7 +21,7 @@ PATTERNS: list[tuple[str, re.Pattern]] = [
     # ── Cloud providers ──────────────────────────────────────────────────
     ("AWS Access Key ID",       re.compile(r"AKIA[0-9A-Z]{16}")),
     ("AWS Secret Access Key",   re.compile(
-        r"(?i)aws.{0,20}['\"\s][0-9a-zA-Z\/+]{40}['\"\s]"
+        r"(?i)aws.{0,20}['\"\s]?[0-9a-zA-Z\/+]{40}['\"\s]?"
     )),
     # ── Version-control platforms ────────────────────────────────────────
     ("GitHub Personal Token",   re.compile(

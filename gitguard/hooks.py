@@ -33,7 +33,7 @@ else
     SCANNER="python3 -m gitguard.cli scan"
 fi
 
-echo "[Git-Guard] Scanning repository for secrets …"
+echo "[Git-Guard] Scanning repository for secrets ..."
 if $SCANNER "$REPO_ROOT"; then
     echo "[Git-Guard] ✔ No secrets detected. Proceeding with push."
     exit 0
