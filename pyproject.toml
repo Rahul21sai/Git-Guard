@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gitguard"
+version = "0.1.0"
+description = "Pre-push git hook that scans for API keys and secrets"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["security", "git", "secrets", "api-keys", "pre-push"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Security",
+    "Topic :: Software Development :: Version Control :: Git",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.scripts]
+gitguard = "gitguard.cli:run"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gitguard*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
