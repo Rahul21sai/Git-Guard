@@ -14,6 +14,7 @@
  */
 
 const { execSync, spawnSync } = require('child_process');
+const crypto = require('crypto');
 const path   = require('path');
 const fs     = require('fs');
 const readline = require('readline');
@@ -169,8 +170,9 @@ async function purgeHistory(findings) {
   if (isAvailable('git-filter-repo')) {
     console.log(chalk.cyan('  Using git-filter-repo…'));
     for (const secret of secretValues) {
-      const tmpFile = path.join(require('os').tmpdir(), `gitguard-replace-${Date.now()}.txt`);
-      fs.writeFileSync(tmpFile, `${secret}==>REDACTED_BY_GITGUARD\n`, 'utf8');
+      const rand    = crypto.randomBytes(12).toString('hex');
+      const tmpFile = path.join(require('os').tmpdir(), `gitguard-${rand}.txt`);
+      fs.writeFileSync(tmpFile, `${secret}==>REDACTED_BY_GITGUARD\n`, { encoding: 'utf8', mode: 0o600 });
       const result = run(`git filter-repo --replace-text "${tmpFile}" --force`);
       fs.unlinkSync(tmpFile);
       if (result.status !== 0) {
@@ -190,8 +192,9 @@ async function purgeHistory(findings) {
       printManualPurgeInstructions(secretValues);
       return false;
     }
-    const secretsFile = path.join(require('os').tmpdir(), 'gitguard-secrets.txt');
-    fs.writeFileSync(secretsFile, secretValues.join('\n') + '\n', 'utf8');
+    const rand        = crypto.randomBytes(12).toString('hex');
+    const secretsFile = path.join(require('os').tmpdir(), `gitguard-${rand}.txt`);
+    fs.writeFileSync(secretsFile, secretValues.join('\n') + '\n', { encoding: 'utf8', mode: 0o600 });
     const result = run(`java -jar "${bfgJar}" --replace-text "${secretsFile}"`, { cwd: process.cwd() });
     fs.unlinkSync(secretsFile);
     if (result.status !== 0) {

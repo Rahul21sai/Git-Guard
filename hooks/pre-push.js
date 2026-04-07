@@ -55,12 +55,13 @@ try { chalk = require('chalk'); } catch {
 // ---------------------------------------------------------------------------
 let diff = '';
 try {
-  diff = execSync('git diff origin/HEAD HEAD --unified=0', {
+  // Use @{upstream} to correctly reference whichever remote/branch is tracked
+  diff = execSync('git diff @{upstream} HEAD --unified=0', {
     encoding: 'utf8',
     stdio: ['pipe', 'pipe', 'pipe'],
   });
 } catch {
-  // No remote HEAD yet (first push) — scan everything staged
+  // No upstream set yet (first push) — scan everything staged
   try {
     diff = execSync('git diff --cached --unified=0', {
       encoding: 'utf8',

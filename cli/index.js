@@ -160,12 +160,23 @@ function scanDirectory(dir, opts) {
 }
 
 function matchGlob(pattern, filePath) {
-  // Simple glob: convert ** and * to regex
+  // Convert a glob pattern to a regex safely:
+  // 1. Replace glob wildcards with placeholders before escaping
+  // 2. Escape all remaining regex special characters
+  // 3. Restore placeholders as regex equivalents
+  const DOUBLE_STAR = '\x00DS\x00';
+  const SINGLE_STAR = '\x00SS\x00';
   const re = pattern
-    .replace(/\./g, '\\.')
-    .replace(/\*\*/g, '.+')
-    .replace(/\*/g, '[^/]+');
-  return new RegExp(re).test(filePath);
+    .replace(/\*\*/g, DOUBLE_STAR)
+    .replace(/\*/g, SINGLE_STAR)
+    .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+    .replace(new RegExp(DOUBLE_STAR, 'g'), '.+')
+    .replace(new RegExp(SINGLE_STAR, 'g'), '[^/]+');
+  try {
+    return new RegExp(`^${re}$`).test(filePath);
+  } catch {
+    return false;
+  }
 }
 
 function printFindings(findings, chalk) {
