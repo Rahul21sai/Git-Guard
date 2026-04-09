@@ -1,0 +1,31 @@
+# GitGuard project configuration
+# Copy this file to .gitguard.yml and customize it for your project.
+
+version: 1
+
+scan:
+  entropy_threshold: 4.5        # Shannon entropy cutoff (default: 4.5)
+  min_secret_length: 20         # Minimum chars to flag as secret
+  scan_binary_files: false      # Skip binary files
+
+patterns:
+  use_builtin: true             # Use built-in regex patterns
+  custom:                       # Add project-specific patterns
+    # - name: "Internal Auth Token"
+    #   regex: "MYAPP_[A-Z0-9]{32}"
+
+ignore:
+  files:                        # Never scan these files
+    - "**/*.test.js"
+    - "**/*.spec.ts"
+    - "**/fixtures/**"
+    - "**/__mocks__/**"
+  patterns:                     # Never flag these string patterns
+    - "example_key_here"
+    - "your_api_key_here"
+    - "PLACEHOLDER"
+    - "xxxxxxxxxxxx"
+
+notify:
+  slack_webhook: ""             # Optional: post alert to Slack on block
+  email: ""                     # Optional: email alert

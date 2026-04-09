@@ -1,0 +1,18 @@
+# .gitguardignore — patterns that GitGuard should never flag
+# Each line is a JavaScript-compatible regular expression.
+# Lines starting with # are comments.
+
+# Ignore placeholder / example values
+example_key_here
+your_api_key_here
+PLACEHOLDER
+INSERT_KEY_HERE
+xxxxxxxxxxxx
+
+# Ignore process.env and environment variable references (also built-in)
+process\.env\.[A-Z_]+
+
+# Ignore test fixture values
+test_secret_value
+dummy_api_key
+fake_token_for_testing
